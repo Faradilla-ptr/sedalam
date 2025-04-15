@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard User</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar Navigation -->
+        <div class="bg-dark text-white vh-100 p-3" style="width: 250px;">
+            <h4>Menu</h4>
+            <ul class="nav flex-column">
+                <li class="nav-item"><a href="#home" class="nav-link text-white">Home</a></li>
+                <li class="nav-item"><a href="#faq" class="nav-link text-white">FAQ</a></li>
+                <li class="nav-item"><a href="#artikel" class="nav-link text-white">Artikel</a></li>
+                <li class="nav-item"><a href="#video" class="nav-link text-white">Video</a></li>
+                <li class="nav-item"><a href="#stok" class="nav-link text-white">Stok Darah</a></li>
+                <li class="nav-item"><a href="#pengajuan" class="nav-link text-white">Pengajuan Donor</a></li>
+                <li class="nav-item mt-auto"><a href="logout.php" class="nav-link text-danger">Logout</a></li>
+            </ul>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="container mt-4">
+            <h2 id="home">Dashboard Pelanggan</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card bg-info text-white mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Status Donor Selanjutnya</h5>
+                            <p id="countdown"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card bg-success text-white mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Ringkasan Riwayat Donor</h5>
+                            <p>Jumlah total donor: 10 kali</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 id="stok">Stok Darah</h3>
+            <canvas id="bloodStockChart"></canvas>
+            
+            <h3 id="faq">FAQ</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            Apa persiapan sebelum donor darah?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Pastikan cukup tidur, makan bergizi, dan minum air putih.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Countdown Timer
+        function startCountdown() {
+            var countDownDate = new Date("Apr 10, 2025 00:00:00").getTime();
+            var x = setInterval(function() {
+                var now = new Date().getTime();
+                var distance = countDownDate - now;
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("countdown").innerHTML = "Siap untuk donor lagi!";
+                } else {
+                    document.getElementById("countdown").innerHTML = days + " hari lagi";
+                }
+            }, 1000);
+        }
+        startCountdown();
+        
+        // Blood Stock Chart
+        var ctx = document.getElementById("bloodStockChart").getContext("2d");
+        var bloodStockChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: ["A", "B", "AB", "O"],
+                datasets: [{
+                    label: "Jumlah Kantong",
+                    data: [100, 80, 60, 90],
+                    backgroundColor: ["red", "blue", "green", "orange"]
+                }]
+            }
+        });
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
