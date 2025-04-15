@@ -22,9 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $otp = mt_rand(100000, 999999);
 
     // Konfigurasi Twilio (gunakan kredensial dari Twilio)
-    $sid = 'AC280b7262065039baa9ed6ea3b19d4545'; // Ganti dengan SID Twilio Anda
-    $authToken = 'd51915ef88f32d5f3d3874e80f28310f'; // Ganti dengan Auth Token Twilio Anda
-    $twilioPhoneNumber = '+6282145483984'; // Nomor WhatsApp Twilio yang digunakan
+    $sid = 'hi'; // Ganti dengan SID Twilio Anda
+    $authToken = 'hi'; // Ganti dengan Auth Token Twilio Anda
+    $twilioPhoneNumber = '+hi'; // Nomor WhatsApp Twilio yang digunakan
 
     // Buat client Twilio
     $client = new Client($sid, $authToken);
