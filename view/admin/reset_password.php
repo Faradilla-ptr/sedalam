@@ -44,12 +44,12 @@ function kirimOtp($conn, $email)
         $mail->isSMTP();
         $mail->Host = "smtp.gmail.com";
         $mail->SMTPAuth = true;
-        $mail->Username = "annisaikrimatus@gmail.com"; // GANTI
-        $mail->Password = "pjfm vftt rete vbig"; // GANTI: App Password
+        $mail->Username = "faradilla.anastasyaptr@gmail.com";
+        $mail->Password = "fmup yyoi gntj bush";
         $mail->SMTPSecure = "tls";
         $mail->Port = 587;
 
-        $mail->setFrom("annisaikrimatus@gmail.com", "Reset Password");
+        $mail->setFrom("faradilla.anastasyaptr@gmail.com", "Reset Password");
         $mail->addAddress($email);
         $mail->isHTML(true);
         $mail->Subject = "Kode OTP Reset Password";

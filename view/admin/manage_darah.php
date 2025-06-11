@@ -543,10 +543,15 @@ h1, h2, h3, .card-header{
 <tr>
     <td colspan="9" class="text-center">Tidak ada data stok darah</td>
 </tr>
-<?php else: ?>
-<?php 
-$no = ($page - 1) * $limit + 1; // Hitung nomor urut berdasarkan halaman
+<?php // Hitung nomor urut berdasarkan halaman
+    // Increment nomor urut
+    // Hitung nomor urut berdasarkan halaman
+    // Increment nomor urut
+    else: ?>
+<?php
+$no = ($page - 1) * $limit + 1;
 foreach ($stok_darah as $stok):
+
     $statusClass = "";
     if ($stok["status"] == "Aman") {
         $statusClass = "status-aman";
@@ -561,7 +566,9 @@ foreach ($stok_darah as $stok):
     <td class="text-center"><?= $stok["golongan_darah"] ?></td>
     <td class="text-center"><?= $stok["rhesus"] ?></td>
     <td class="text-center"><?= $stok["jumlah_kantong"] ?></td>
-    <td title="<?= htmlspecialchars($stok["lokasi"]) ?>"><?= htmlspecialchars($stok["lokasi"]) ?></td>
+    <td title="<?= htmlspecialchars($stok["lokasi"]) ?>"><?= htmlspecialchars(
+    $stok["lokasi"]
+) ?></td>
     <td class="text-center"><?= $stok["tanggal_stok_datang"] ?></td>
     <td class="text-center <?= $statusClass ?>"><?= $stok["status"] ?></td>
     <td class="text-center"><?= $stok["tanggal_kadaluarsa"] ?></td>
@@ -578,18 +585,24 @@ foreach ($stok_darah as $stok):
             Perbarui
         </button>
 
-        <form method="POST" id="deleteForm<?= $stok["id"] ?>" style="display:inline; margin-left:2px;">
-            <input type="hidden" name="id" value="<?= $stok["id"] ?>"> <!-- Tetap gunakan ID database asli -->
-            <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete(<?= $stok["id"] ?>)">
+        <form method="POST" id="deleteForm<?= $stok[
+            "id"
+        ] ?>" style="display:inline; margin-left:2px;">
+            <input type="hidden" name="id" value="<?= $stok[
+                "id"
+            ] ?>"> <!-- Tetap gunakan ID database asli -->
+            <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete(<?= $stok[
+                "id"
+            ] ?>)">
                 Hapus
             </button>
             <input type="hidden" name="delete" value="true">
         </form>
     </td>
 </tr>
-<?php 
-$no++; // Increment nomor urut
-endforeach; ?>
+<?php $no++;
+endforeach;
+?>
 <?php endif; ?>
 
                     </tbody>
@@ -623,7 +636,6 @@ endforeach; ?>
                         <?php
                         $start_page = max(1, $page - 2);
                         $end_page = min($total_pages, $page + 2);
-
                         if ($start_page > 1): ?>
                             <li class="page-item">
                                 <a class="page-link" href="<?= $pagination_url ?>page=1#data-table">1</a>

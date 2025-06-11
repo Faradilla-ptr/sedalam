@@ -390,15 +390,15 @@ function getFilteredReview(
     } else {
         // Admin lokasi melihat review berdasarkan alamat pendonor
         $location_keywords = getLocationKeywords($admin_location);
-        
+
         if (!empty($location_keywords)) {
             $alamat_conditions = [];
             foreach ($location_keywords as $keyword) {
                 $escaped_keyword = mysqli_real_escape_string($conn, $keyword);
                 $alamat_conditions[] = "(a.alamat LIKE '%$escaped_keyword%' OR r.lokasi LIKE '%$escaped_keyword%')";
-
             }
-            $alamat_filter = " AND (" . implode(" OR ", $alamat_conditions) . ")";
+            $alamat_filter =
+                " AND (" . implode(" OR ", $alamat_conditions) . ")";
         } else {
             $alamat_filter = " AND 1=0"; // Jika tidak ada keywords, tidak tampilkan data
         }
@@ -420,7 +420,8 @@ function getFilteredReview(
  * @param string $additional_where - kondisi WHERE tambahan
  * @return int - jumlah total review
  */
-function getFilteredReviewCount($conn, $additional_where = "") {
+function getFilteredReviewCount($conn, $additional_where = "")
+{
     $admin_location = $_SESSION["admin_location"] ?? "ALL";
 
     if (isset($_SESSION["is_super_admin"]) && $_SESSION["is_super_admin"]) {
@@ -432,15 +433,15 @@ function getFilteredReviewCount($conn, $additional_where = "") {
     } else {
         // Admin lokasi melihat review berdasarkan alamat pendonor
         $location_keywords = getLocationKeywords($admin_location);
-        
+
         if (!empty($location_keywords)) {
             $alamat_conditions = [];
             foreach ($location_keywords as $keyword) {
                 $escaped_keyword = mysqli_real_escape_string($conn, $keyword);
                 $alamat_conditions[] = "(a.alamat LIKE '%$escaped_keyword%' OR r.lokasi LIKE '%$escaped_keyword%')";
-
             }
-            $alamat_filter = " AND (" . implode(" OR ", $alamat_conditions) . ")";
+            $alamat_filter =
+                " AND (" . implode(" OR ", $alamat_conditions) . ")";
         } else {
             $alamat_filter = " AND 1=0"; // Jika tidak ada keywords, tidak tampilkan data
         }

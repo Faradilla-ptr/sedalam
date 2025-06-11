@@ -36,7 +36,14 @@ if (
         $query =
             "INSERT INTO review (id_pendonor, username, rating, ulasan, lokasi,created_at) VALUES (?, ?, ?, ?,?, NOW())";
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("isiss", $id_user, $username, $rating, $ulasan,$lokasi);
+        $stmt->bind_param(
+            "isiss",
+            $id_user,
+            $username,
+            $rating,
+            $ulasan,
+            $lokasi
+        );
 
         if ($stmt === false) {
             // Error preparing statement

@@ -14,13 +14,18 @@ if ($conn->connect_error) {
 }
 
 // Pastikan admin sudah login
-if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
+if (
+    !isset($_SESSION["user_id"]) ||
+    !isset($_SESSION["user_role"]) ||
+    $_SESSION["user_role"] !== "admin"
+) {
     die("Akses ditolak. Harap login sebagai admin terlebih dahulu.");
 }
 
 // Ambil informasi lokasi admin
 $admin_location = $_SESSION["admin_location"] ?? "ALL";
-$is_super_admin = isset($_SESSION["is_super_admin"]) && $_SESSION["is_super_admin"];
+$is_super_admin =
+    isset($_SESSION["is_super_admin"]) && $_SESSION["is_super_admin"];
 
 // Dapatkan filter berdasarkan lokasi admin
 $location_filter_pengajuan = getLocationFilter($admin_location, "p");
@@ -28,9 +33,13 @@ $location_filter_stok = getLocationFilter($admin_location, "s");
 $location_filter_pengambilan = getLocationFilter($admin_location, "pd");
 
 // Nama file berdasarkan lokasi
-$filename = $is_super_admin ? 
-    "laporan_stok_darah_semua_lokasi_" . date("Y-m-d") . ".xls" : 
-    "laporan_stok_darah_" . str_replace(" ", "_", strtolower($admin_location)) . "_" . date("Y-m-d") . ".xls";
+$filename = $is_super_admin
+    ? "laporan_stok_darah_semua_lokasi_" . date("Y-m-d") . ".xls"
+    : "laporan_stok_darah_" .
+        str_replace(" ", "_", strtolower($admin_location)) .
+        "_" .
+        date("Y-m-d") .
+        ".xls";
 
 // Set header untuk download file Excel
 header("Content-Type: application/vnd.ms-excel");
@@ -40,31 +49,47 @@ header("Expires: 0");
 
 // Ambil data statistik dengan filter lokasi
 $total_pengajuan = $conn
-    ->query("SELECT COUNT(*) as total FROM pengajuan p WHERE 1=1 $location_filter_pengajuan")
+    ->query(
+        "SELECT COUNT(*) as total FROM pengajuan p WHERE 1=1 $location_filter_pengajuan"
+    )
     ->fetch_assoc()["total"];
 
 $total_terima = $conn
-    ->query("SELECT COUNT(*) as total FROM pengajuan p WHERE konfirmasi = 'sukses' $location_filter_pengajuan")
+    ->query(
+        "SELECT COUNT(*) as total FROM pengajuan p WHERE konfirmasi = 'sukses' $location_filter_pengajuan"
+    )
     ->fetch_assoc()["total"];
 
 $total_tolak = $conn
-    ->query("SELECT COUNT(*) as total FROM pengajuan p WHERE konfirmasi = 'gagal' $location_filter_pengajuan")
+    ->query(
+        "SELECT COUNT(*) as total FROM pengajuan p WHERE konfirmasi = 'gagal' $location_filter_pengajuan"
+    )
     ->fetch_assoc()["total"];
 
 // Menggunakan nama kolom yang benar sesuai database
-$total_darah_masuk = $conn
-    ->query("SELECT SUM(jumlah_kantong) as total FROM stok_darah s WHERE 1=1 $location_filter_stok")
-    ->fetch_assoc()["total"] ?: 0;
+$total_darah_masuk =
+    $conn
+        ->query(
+            "SELECT SUM(jumlah_kantong) as total FROM stok_darah s WHERE 1=1 $location_filter_stok"
+        )
+        ->fetch_assoc()["total"] ?:
+    0;
 
-$total_darah_keluar = $conn
-    ->query("SELECT SUM(jumlah_kantong) as total FROM pengambilan_darah pd WHERE 1=1 $location_filter_pengambilan")
-    ->fetch_assoc()["total"] ?: 0;
+$total_darah_keluar =
+    $conn
+        ->query(
+            "SELECT SUM(jumlah_kantong) as total FROM pengambilan_darah pd WHERE 1=1 $location_filter_pengambilan"
+        )
+        ->fetch_assoc()["total"] ?:
+    0;
 
 $stok_golongan = [];
 $golongan = ["A", "B", "AB", "O"];
 foreach ($golongan as $g) {
     $res = $conn
-        ->query("SELECT SUM(jumlah_kantong) as total FROM stok_darah s WHERE golongan_darah = '$g' $location_filter_stok")
+        ->query(
+            "SELECT SUM(jumlah_kantong) as total FROM stok_darah s WHERE golongan_darah = '$g' $location_filter_stok"
+        )
         ->fetch_assoc()["total"];
     $stok_golongan[$g] = $res ?: 0;
 }
@@ -81,7 +106,9 @@ if ($is_super_admin) {
 } else {
     echo "<tr><td colspan='4' style='background-color: #f2f2f2; font-weight: bold;'>Lokasi: {$admin_location}</td></tr>";
 }
-echo "<tr><td colspan='4'>Tanggal Laporan: " . date("d-m-Y H:i:s") . "</td></tr>";
+echo "<tr><td colspan='4'>Tanggal Laporan: " .
+    date("d-m-Y H:i:s") .
+    "</td></tr>";
 echo "<tr><td colspan='4'></td></tr>";
 
 // Statistik Umum
@@ -132,9 +159,19 @@ $total_all_stok = 0;
 
 while ($row = $result->fetch_assoc()) {
     $total_all_stok += $row["jumlah_kantong"];
-    $status = $row["jumlah_kantong"] > 10 ? "Aman" : ($row["jumlah_kantong"] > 5 ? "Perlu Perhatian" : "Kritis");
-    $status_color = $row["jumlah_kantong"] > 10 ? "green" : ($row["jumlah_kantong"] > 5 ? "orange" : "red");
-    
+    $status =
+        $row["jumlah_kantong"] > 10
+            ? "Aman"
+            : ($row["jumlah_kantong"] > 5
+                ? "Perlu Perhatian"
+                : "Kritis");
+    $status_color =
+        $row["jumlah_kantong"] > 10
+            ? "green"
+            : ($row["jumlah_kantong"] > 5
+                ? "orange"
+                : "red");
+
     if ($is_super_admin) {
         echo "<tr>
                 <td>{$no}</td>
@@ -144,9 +181,13 @@ while ($row = $result->fetch_assoc()) {
               </tr>";
         echo "<tr>
                 <td>{$row["lokasi"]}</td>
-                <td>" . date("d/m/Y", strtotime($row["created_at"])) . "</td>
+                <td>" .
+            date("d/m/Y", strtotime($row["created_at"])) .
+            "</td>
                 <td style='color: $status_color; font-weight: bold;'>$status</td>
-                <td>" . ($row["keterangan"] ?? "-") . "</td>
+                <td>" .
+            ($row["keterangan"] ?? "-") .
+            "</td>
               </tr>";
     } else {
         echo "<tr>
@@ -193,27 +234,42 @@ $pengajuan_result = $conn->query($pengajuan_query);
 $no = 1;
 
 while ($row = $pengajuan_result->fetch_assoc()) {
-    $status_color = $row["konfirmasi"] == "sukses" ? "green" : ($row["konfirmasi"] == "pending" ? "orange" : "red");
-    
+    $status_color =
+        $row["konfirmasi"] == "sukses"
+            ? "green"
+            : ($row["konfirmasi"] == "pending"
+                ? "orange"
+                : "red");
+
     if ($is_super_admin) {
         echo "<tr>
                 <td>{$no}</td>
                 <td>{$row["nama_pendonor"]}</td>
-                <td>" . date("d/m/Y", strtotime($row["created_at"])) . "</td>
-                <td style='color: $status_color; font-weight: bold;'>" . strtoupper($row["konfirmasi"]) . "</td>
+                <td>" .
+            date("d/m/Y", strtotime($row["created_at"])) .
+            "</td>
+                <td style='color: $status_color; font-weight: bold;'>" .
+            strtoupper($row["konfirmasi"]) .
+            "</td>
               </tr>";
         echo "<tr>
                 <td>{$row["lokasi"]}</td>
                 <td>{$row["telepon"]}</td>
                 <td>{$row["golongan_darah"]}</td>
-                <td>" . ($row["catatan"] ?? "-") . "</td>
+                <td>" .
+            ($row["catatan"] ?? "-") .
+            "</td>
               </tr>";
     } else {
         echo "<tr>
                 <td>{$no}</td>
                 <td>{$row["nama_pendonor"]}</td>
-                <td>" . date("d/m/Y", strtotime($row["created_at"])) . "</td>
-                <td style='color: $status_color; font-weight: bold;'>" . strtoupper($row["konfirmasi"]) . "</td>
+                <td>" .
+            date("d/m/Y", strtotime($row["created_at"])) .
+            "</td>
+                <td style='color: $status_color; font-weight: bold;'>" .
+            strtoupper($row["konfirmasi"]) .
+            "</td>
               </tr>";
     }
     $no++;
@@ -222,7 +278,9 @@ while ($row = $pengajuan_result->fetch_assoc()) {
 echo "<tr><td colspan='4'></td></tr>";
 
 // Footer
-echo "<tr><td colspan='4' style='background-color: #f2f2f2; font-style: italic; text-align: center;'>Laporan dibuat otomatis pada: " . date("d-m-Y H:i:s") . "</td></tr>";
+echo "<tr><td colspan='4' style='background-color: #f2f2f2; font-style: italic; text-align: center;'>Laporan dibuat otomatis pada: " .
+    date("d-m-Y H:i:s") .
+    "</td></tr>";
 
 if ($is_super_admin) {
     echo "<tr><td colspan='4' style='background-color: #f2f2f2; font-style: italic; text-align: center;'>Dibuat oleh: Super Admin (Akses Semua Lokasi)</td></tr>";

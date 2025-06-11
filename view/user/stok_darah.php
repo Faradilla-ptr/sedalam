@@ -18,13 +18,14 @@ if (isset($_GET["lokasi"])) {
         "jember" => "UDD PMI Kabupaten Jember",
         "bondowoso" => "UDD PMI Kabupaten Bondowoso",
         "situbondo" => "UDD PMI Kabupaten Situbondo",
-        "banyuwangi" => "UDD PMI Kabupaten Banyuwangi"
+        "banyuwangi" => "UDD PMI Kabupaten Banyuwangi",
     ];
 
     $lokasiKey = $_GET["lokasi"];
-    
+
     // Tambahkan filter bulan Juni (bulan ke-6)
-    $sql = "SELECT golongan_darah, SUM(jumlah_kantong) AS total_jumlah FROM stok_darah WHERE MONTH(tanggal_stok_datang) = 6 AND YEAR(tanggal_stok_datang) = YEAR(CURDATE())";
+    $sql =
+        "SELECT golongan_darah, SUM(jumlah_kantong) AS total_jumlah FROM stok_darah WHERE MONTH(tanggal_stok_datang) = 6 AND YEAR(tanggal_stok_datang) = YEAR(CURDATE())";
 
     if ($lokasiKey !== "all") {
         $lokasi = $lokasiMap[$lokasiKey] ?? "";
@@ -50,7 +51,8 @@ if (isset($_GET["lokasi"])) {
 }
 
 // Data awal saat halaman dibuka - tambahkan filter Juni
-$sql = "SELECT golongan_darah, SUM(jumlah_kantong) AS total_jumlah FROM stok_darah WHERE MONTH(tanggal_stok_datang) = 6 AND YEAR(tanggal_stok_datang) = YEAR(CURDATE()) GROUP BY golongan_darah";
+$sql =
+    "SELECT golongan_darah, SUM(jumlah_kantong) AS total_jumlah FROM stok_darah WHERE MONTH(tanggal_stok_datang) = 6 AND YEAR(tanggal_stok_datang) = YEAR(CURDATE()) GROUP BY golongan_darah";
 $result = $conn->query($sql);
 
 $stokData = ["A" => 0, "B" => 0, "AB" => 0, "O" => 0];

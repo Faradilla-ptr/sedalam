@@ -19,35 +19,44 @@ $id_pendonor = isset($_GET["id"]) ? (int) $_GET["id"] : null;
 $show_dokumen = $_GET["show_dokumen"] ?? null;
 
 // TAMBAHAN: Handle konfirmasi pengajuan (terima/tolak)
-if (isset($_POST["konfirmasi"]) && isset($_POST["id_pengajuan"]) && isset($_POST["status"])) {
+if (
+    isset($_POST["konfirmasi"]) &&
+    isset($_POST["id_pengajuan"]) &&
+    isset($_POST["status"])
+) {
     $id_pengajuan = $_POST["id_pengajuan"];
     $status = $_POST["status"]; // 'sukses' atau 'gagal'
-    
+
     // Verifikasi akses berdasarkan lokasi admin
     $admin_location = $_SESSION["admin_location"] ?? "ALL";
     $location_filter = getLocationFilter($admin_location);
-    
+
     // Update status konfirmasi
-    $stmt = $conn->prepare("UPDATE pengajuan SET konfirmasi = ? WHERE id = ? $location_filter");
+    $stmt = $conn->prepare(
+        "UPDATE pengajuan SET konfirmasi = ? WHERE id = ? $location_filter"
+    );
     $stmt->bind_param("si", $status, $id_pengajuan);
-    
+
     if ($stmt->execute()) {
         if ($stmt->affected_rows > 0) {
             // Set session untuk menampilkan alert sukses
-            $_SESSION['konfirmasi_status'] = 'success';
-            $_SESSION['konfirmasi_message'] = 'Status pengajuan berhasil diperbarui!';
-            $_SESSION['konfirmasi_type'] = $status == 'sukses' ? 'Diterima' : 'Ditolak';
-            
+            $_SESSION["konfirmasi_status"] = "success";
+            $_SESSION["konfirmasi_message"] =
+                "Status pengajuan berhasil diperbarui!";
+            $_SESSION["konfirmasi_type"] =
+                $status == "sukses" ? "Diterima" : "Ditolak";
+
             // Redirect untuk mencegah resubmission
             header("Location: view_pendonor.php?id=" . $id_pendonor);
             exit();
         } else {
-            $_SESSION['konfirmasi_status'] = 'error';
-            $_SESSION['konfirmasi_message'] = 'Data tidak ditemukan atau Anda tidak memiliki akses untuk data ini!';
+            $_SESSION["konfirmasi_status"] = "error";
+            $_SESSION["konfirmasi_message"] =
+                "Data tidak ditemukan atau Anda tidak memiliki akses untuk data ini!";
         }
     } else {
-        $_SESSION['konfirmasi_status'] = 'error';
-        $_SESSION['konfirmasi_message'] = 'Gagal memperbarui status pengajuan!';
+        $_SESSION["konfirmasi_status"] = "error";
+        $_SESSION["konfirmasi_message"] = "Gagal memperbarui status pengajuan!";
     }
     $stmt->close();
 }
@@ -74,7 +83,7 @@ if ($id_pendonor) {
     // Ambil data pengajuan dengan filter lokasi
     $admin_location = $_SESSION["admin_location"] ?? "ALL";
     $location_filter = getLocationFilter($admin_location, "p");
-    
+
     $pengajuan_query = "SELECT p.* FROM pengajuan p WHERE p.id_pendonor = ? $location_filter";
     $stmt = $conn->prepare($pengajuan_query);
     $stmt->bind_param("i", $id_pendonor);
@@ -174,7 +183,7 @@ if ($id_pendonor) {
                 <span class="badge bg-danger status-badge">Ditolak</span>
             <?php endif; ?>
         </div>
-        <small class="text-muted">ID Pengajuan: <?= $pengajuan['id'] ?></small>
+        <small class="text-muted">ID Pengajuan: <?= $pengajuan["id"] ?></small>
     </div>
     <?php endif; ?>
 
@@ -272,10 +281,14 @@ if ($id_pendonor) {
         </p>
         
         <div class="d-flex gap-3">
-            <button type="button" class="btn btn-success btn-lg" onclick="confirmSubmission('sukses', '<?= $pengajuan['id'] ?>')">
+            <button type="button" class="btn btn-success btn-lg" onclick="confirmSubmission('sukses', '<?= $pengajuan[
+                "id"
+            ] ?>')">
                 <i class="bi bi-check-lg"></i> Terima Pengajuan
             </button>
-            <button type="button" class="btn btn-danger btn-lg" onclick="confirmSubmission('gagal', '<?= $pengajuan['id'] ?>')">
+            <button type="button" class="btn btn-danger btn-lg" onclick="confirmSubmission('gagal', '<?= $pengajuan[
+                "id"
+            ] ?>')">
                 <i class="bi bi-x-lg"></i> Tolak Pengajuan
             </button>
         </div>
@@ -444,8 +457,8 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     
     // Show success/error alerts from session
-    <?php if (isset($_SESSION['konfirmasi_status'])): ?>
-        <?php if ($_SESSION['konfirmasi_status'] === 'success'): ?>
+    <?php if (isset($_SESSION["konfirmasi_status"])): ?>
+        <?php if ($_SESSION["konfirmasi_status"] === "success"): ?>
             Swal.fire({
                 title: 'Berhasil!',
                 text: '<?= $_SESSION["konfirmasi_message"] ?>',
@@ -462,11 +475,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 confirmButtonColor: '#dc3545'
             });
         <?php endif; ?>
-        <?php 
+        <?php
         // Clear session variables
-        unset($_SESSION['konfirmasi_status']);
-        unset($_SESSION['konfirmasi_message']);
-        unset($_SESSION['konfirmasi_type']);
+        unset($_SESSION["konfirmasi_status"]);
+        unset($_SESSION["konfirmasi_message"]);
+        unset($_SESSION["konfirmasi_type"]);
         ?>
     <?php endif; ?>
 });
