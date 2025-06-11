@@ -1,0 +1,22 @@
+{
+  "name": "coba",
+  "version": "1.0.0",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "format": "prettier --write \"**/*.php\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@lottiefiles/dotlottie-web": "^0.44.0",
+    "vite": "^6.2.2"
+  },
+  "devDependencies": {
+    "@prettier/plugin-php": "^0.22.4",
+    "prettier": "3.5.3"
+  }
+}

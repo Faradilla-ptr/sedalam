@@ -1,0 +1,8 @@
+RewriteEngine On
+
+# Pastikan semua request diarahkan ke folder utama
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?file=$1 [L,QSA]
+RewriteCond %{REQUEST_URI} !^/dokumen/
+RewriteCond %{REQUEST_URI} !^/uploads/

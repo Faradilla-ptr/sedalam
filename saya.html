@@ -1,0 +1,1443 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DonorKu - Berbagi Kehidupan Melalui Donor Darah</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      /* Header */
+      header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        padding: 1rem 0;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 20px rgba(220, 38, 127, 0.1);
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      .logo {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #dc267f;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .logo::before {
+        content: "❤️";
+        animation: heartbeat 2s infinite;
+      }
+
+      @keyframes heartbeat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: color 0.3s ease;
+        position: relative;
+      }
+
+      .nav-links a:hover {
+        color: #dc267f;
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #dc267f;
+        transition: width 0.3s ease;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      /* Hero Section */
+      .hero {
+        height: 100vh;
+        background: linear-gradient(135deg, #dc267f 0%, #ff6b6b 100%);
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+        animation: float 20s infinite linear;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-100px);
+        }
+      }
+
+      .hero-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+        z-index: 2;
+        position: relative;
+      }
+
+      .hero-text h1 {
+        font-size: 4rem;
+        color: white;
+        margin-bottom: 1rem;
+        animation: slideInLeft 1s ease-out;
+      }
+
+      .hero-text p {
+        font-size: 1.3rem;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 2rem;
+        animation: slideInLeft 1s ease-out 0.2s both;
+      }
+
+      .cta-buttons {
+        display: flex;
+        gap: 1rem;
+        animation: slideInLeft 1s ease-out 0.4s both;
+      }
+
+      .btn {
+        padding: 1rem 2rem;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+      }
+
+      .btn-primary {
+        background: white;
+        color: #dc267f;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: white;
+        border: 2px solid white;
+      }
+
+      .btn-secondary:hover {
+        background: white;
+        color: #dc267f;
+        transform: translateY(-3px);
+      }
+
+      .hero-visual {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        animation: slideInRight 1s ease-out;
+      }
+
+      .blood-drop {
+        width: 200px;
+        height: 280px;
+        background: white;
+        border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+        position: relative;
+        animation: dropFloat 3s ease-in-out infinite;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+      }
+
+      .blood-drop::before {
+        content: "🩸";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 4rem;
+      }
+
+      @keyframes slideInLeft {
+        from {
+          transform: translateX(-100px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideInRight {
+        from {
+          transform: translateX(100px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes dropFloat {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      /* Stats Section */
+      .stats {
+        background: white;
+        padding: 4rem 0;
+        margin-top: -50px;
+        position: relative;
+        z-index: 10;
+      }
+
+      .stats-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+      }
+
+      .stat-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(220, 38, 127, 0.1);
+        transition: transform 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-10px);
+      }
+
+      .stat-number {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #dc267f;
+        margin-bottom: 0.5rem;
+      }
+
+      .stat-label {
+        color: #666;
+        font-size: 1.1rem;
+      }
+
+      /* About Section */
+      .about {
+        padding: 6rem 0;
+        background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      .section-title {
+        text-align: center;
+        font-size: 3rem;
+        color: #333;
+        margin-bottom: 1rem;
+        position: relative;
+      }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: #dc267f;
+        border-radius: 2px;
+      }
+
+      .section-subtitle {
+        text-align: center;
+        color: #666;
+        font-size: 1.2rem;
+        margin-bottom: 4rem;
+      }
+
+      .about-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+      }
+
+      .about-text {
+        font-size: 1.1rem;
+        color: #555;
+        line-height: 1.8;
+      }
+
+      .about-text h3 {
+        color: #dc267f;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .about-features {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+      }
+
+      .feature {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(220, 38, 127, 0.1);
+        transition: transform 0.3s ease;
+      }
+
+      .feature:hover {
+        transform: translateY(-5px);
+      }
+
+      .feature-icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      .feature h4 {
+        color: #333;
+        margin-bottom: 0.5rem;
+      }
+
+      .feature p {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      /* Blood Stock Section */
+      .blood-stock {
+        padding: 6rem 0;
+        background: white;
+      }
+
+      .stock-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+
+      .blood-type {
+        background: linear-gradient(135deg, #dc267f 0%, #ff6b6b 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 20px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+      }
+
+      .blood-type:hover {
+        transform: scale(1.05);
+      }
+
+      .blood-type::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+        transform: rotate(45deg);
+        transition: all 0.6s ease;
+        opacity: 0;
+      }
+
+      .blood-type:hover::before {
+        animation: shine 0.6s ease-in-out;
+      }
+
+      @keyframes shine {
+        0% {
+          transform: translateX(-100%) translateY(-100%) rotate(45deg);
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateX(100%) translateY(100%) rotate(45deg);
+          opacity: 0;
+        }
+      }
+
+      .blood-type h3 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .stock-level {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .stock-bar {
+        background: rgba(255, 255, 255, 0.3);
+        height: 8px;
+        border-radius: 4px;
+        overflow: hidden;
+        margin-bottom: 1rem;
+      }
+
+      .stock-fill {
+        height: 100%;
+        border-radius: 4px;
+        transition: width 1s ease;
+      }
+
+      .stock-high {
+        background: #4caf50;
+      }
+      .stock-medium {
+        background: #ff9800;
+      }
+      .stock-low {
+        background: #f44336;
+      }
+
+      .stock-status {
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      /* FAQ Section */
+      .faq {
+        padding: 6rem 0;
+        background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
+      }
+
+      .faq-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      .faq-item {
+        background: white;
+        margin-bottom: 1rem;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(220, 38, 127, 0.1);
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .faq-question {
+        padding: 1.5rem;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: white;
+        border: none;
+        width: 100%;
+        text-align: left;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #333;
+        transition: all 0.3s ease;
+      }
+
+      .faq-question:hover {
+        background: #f8f9fa;
+        color: #dc267f;
+      }
+
+      .faq-icon {
+        font-size: 1.5rem;
+        transition: transform 0.3s ease;
+      }
+
+      .faq-answer {
+        padding: 0 1.5rem;
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+      }
+
+      .faq-answer.active {
+        padding: 1.5rem;
+        max-height: 200px;
+      }
+
+      .faq-item.active .faq-icon {
+        transform: rotate(45deg);
+      }
+
+      /* Footer */
+      footer {
+        background: #333;
+        color: white;
+        padding: 3rem 0 1rem;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+      }
+
+      .footer-section h3 {
+        color: #dc267f;
+        margin-bottom: 1rem;
+      }
+
+      .footer-section p,
+      .footer-section a {
+        color: #ccc;
+        text-decoration: none;
+        line-height: 1.8;
+      }
+
+      .footer-section a:hover {
+        color: #dc267f;
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 2rem;
+        margin-top: 2rem;
+        border-top: 1px solid #555;
+        color: #999;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+
+        .hero-content {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+
+        .hero-text h1 {
+          font-size: 2.5rem;
+        }
+
+        .about-content {
+          grid-template-columns: 1fr;
+        }
+
+        .about-features {
+          grid-template-columns: 1fr;
+        }
+
+        .cta-buttons {
+          flex-direction: column;
+        }
+      }
+
+      /* Scroll animations */
+      .animate-on-scroll {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s ease;
+      }
+
+      .animate-on-scroll.animate {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <nav>
+        <a href="#" class="logo">DonorKu</a>
+        <ul class="nav-links">
+          <li><a href="#home">Beranda</a></li>
+          <li><a href="#about">Tentang</a></li>
+          <li><a href="#stock">Stok Darah</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#contact">Kontak</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1>Berbagi Kehidupan Dimulai Dari Sini</h1>
+          <p>
+            Setiap tetes darah Anda dapat menyelamatkan hingga 3 nyawa. Mari
+            bergabung dengan gerakan kemanusiaan dan menjadi pahlawan bagi
+            sesama.
+          </p>
+          <div class="cta-buttons">
+            <a href="#" class="btn btn-primary">Donor Sekarang</a>
+            <a href="#about" class="btn btn-secondary">Pelajari Lebih Lanjut</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="blood-drop"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+      <div class="stats-container">
+        <div class="stat-card animate-on-scroll">
+          <div class="stat-number" data-target="15420">0</div>
+          <div class="stat-label">Donor Terdaftar</div>
+        </div>
+        <div class="stat-card animate-on-scroll">
+          <div class="stat-number" data-target="8937">0</div>
+          <div class="stat-label">Nyawa Terselamatkan</div>
+        </div>
+        <div class="stat-card animate-on-scroll">
+          <div class="stat-number" data-target="2547">0</div>
+          <div class="stat-label">Kantong Darah Tersedia</div>
+        </div>
+        <div class="stat-card animate-on-scroll">
+          <div class="stat-number" data-target="24">0</div>
+          <div class="stat-label">Jam Operasional</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+      <div class="container">
+        <h2 class="section-title animate-on-scroll">Tentang DonorKu</h2>
+        <p class="section-subtitle animate-on-scroll">
+          Menjadi jembatan antara donor darah dan mereka yang membutuhkan
+        </p>
+
+        <div class="about-content">
+          <div class="about-text animate-on-scroll">
+            <h3>Misi Kami</h3>
+            <p>
+              DonorKu hadir dengan misi mulia untuk memfasilitasi proses donor
+              darah yang aman, mudah, dan terpercaya. Kami percaya bahwa setiap
+              orang memiliki kekuatan untuk menyelamatkan nyawa melalui kegiatan
+              donor darah.
+            </p>
+
+            <p>
+              Dengan teknologi modern dan tim medis profesional, kami
+              berkomitmen untuk memberikan layanan terbaik bagi para donor dan
+              penerima darah. Keamanan dan kenyamanan Anda adalah prioritas
+              utama kami.
+            </p>
+
+            <p>
+              Bergabunglah dengan ribuan donor lainnya yang telah mempercayakan
+              kegiatan donor darah mereka kepada DonorKu. Bersama-sama, kita
+              wujudkan Indonesia yang lebih sehat dan peduli.
+            </p>
+          </div>
+
+          <div class="about-features animate-on-scroll">
+            <div class="feature">
+              <div class="feature-icon">🏥</div>
+              <h4>Fasilitas Modern</h4>
+              <p>Dilengkapi dengan peralatan medis canggih dan steril</p>
+            </div>
+            <div class="feature">
+              <div class="feature-icon">👨‍⚕️</div>
+              <h4>Tim Profesional</h4>
+              <p>Tenaga medis berpengalaman dan bersertifikat</p>
+            </div>
+            <div class="feature">
+              <div class="feature-icon">🛡️</div>
+              <h4>Keamanan Terjamin</h4>
+              <p>Protokol kesehatan ketat untuk keamanan maksimal</p>
+            </div>
+            <div class="feature">
+              <div class="feature-icon">📱</div>
+              <h4>Sistem Digital</h4>
+              <p>Pendaftaran online dan tracking yang mudah</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Blood Stock Section -->
+    <section id="stock" class="blood-stock">
+      <div class="container">
+        <h2 class="section-title animate-on-scroll">Stok Darah Tersedia</h2>
+        <p class="section-subtitle animate-on-scroll">
+          Pantau ketersediaan darah real-time di pusat layanan kami
+        </p>
+
+        <div class="stock-grid">
+          <div class="blood-type animate-on-scroll">
+            <h3>A+</h3>
+            <div class="stock-level">452 Kantong</div>
+            <div class="stock-bar">
+              <div class="stock-fill stock-high" style="width: 85%"></div>
+            </div>
+            <div class="stock-status">Stok Baik</div>
+          </div>
+
+          <div class="blood-type animate-on-scroll">
+            <h3>A-</h3>
+            <div class="stock-level">127 Kantong</div>
+            <div class="stock-bar">
+              <div class="stock-fill stock-medium" style="width: 45%"></div>
+            </div>
+            <div class="stock-status">Stok Sedang</div>
+          </div>
+
+          <div class="blood-type animate-on-scroll">
+            <h3>B+</h3>
+            <div class="stock-level">389 Kantong</div>
+            <div class="stock-bar">
+              <div class="stock-fill stock-high" style="width: 75%"></div>
+            </div>
+            <div class="stock-status">Stok Baik</div>
+          </div>
+
+          <div class="blood-type animate-on-scroll">
+            <h3>B-</h3>
+            <div class="stock-level">94 Kantong</div>
+            <div class="stock-bar">
+              <div class="stock-fill stock-low" style="width: 25%"></div>
+            </div>
+            <div class="stock-status">Stok Menipis</div>
+          </div>
+
+          <div class="blood-type animate-on-scroll">
+            <h3>AB+</h3>
+            <div class="stock-level">203 Kantong</div>
+            <div class="stock-bar">
+              <div class="stock-fill stock-medium" style="width: 55%"></div>
+            </div>
+            <div class="stock-status">Stok Sedang</div>
+          </div>
+
+          <div class="blood-type animate-on-scroll">
+            <h3>AB-</h3>
+            <div class="stock-level">67 Kantong</div>
+            <div class="stock-bar">
+              <div class="stock-fill stock-low" style="width: 20%"></div>
+            </div>
+            <div class="stock-status">Stok Menipis</div>
+          </div>
+
+          <div class="blood-type animate-on-scroll">
+            <h3>O+</h3>
+            <div class="stock-level">598 Kantong</div>
+            <div class="stock-bar">
+              <div class="stock-fill stock-high" style="width: 90%"></div>
+            </div>
+            <div class="stock-status">Stok Baik</div>
+          </div>
+
+          <div class="blood-type animate-on-scroll">
+            <h3>O-</h3>
+            <div class="stock-level">156 Kantong</div>
+            <div class="stock-bar">
+              <div class="stock-fill stock-medium" style="width: 40%"></div>
+            </div>
+            <div class="stock-status">Stok Sedang</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq">
+      <div class="faq-container">
+        <h2 class="section-title animate-on-scroll">
+          Pertanyaan yang Sering Diajukan
+        </h2>
+        <p class="section-subtitle animate-on-scroll">
+          Temukan jawaban atas pertanyaan Anda tentang donor darah
+        </p>
+
+        <div class="faq-item animate-on-scroll">
+          <button class="faq-question">
+            Siapa saja yang bisa menjadi donor darah?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Setiap orang yang berusia 17-65 tahun, memiliki berat badan
+              minimal 45 kg, sehat jasmani dan rohani, serta tidak memiliki
+              riwayat penyakit tertentu dapat menjadi donor darah. Kami akan
+              melakukan screening kesehatan sebelum proses donor.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item animate-on-scroll">
+          <button class="faq-question">
+            Berapa lama proses donor darah berlangsung?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Seluruh proses donor darah memakan waktu sekitar 45 menit hingga 1
+              jam, termasuk registrasi, pemeriksaan kesehatan, proses
+              pengambilan darah (8-10 menit), dan istirahat setelah donor.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item animate-on-scroll">
+          <button class="faq-question">
+            Seberapa sering saya bisa mendonorkan darah?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Anda dapat mendonorkan darah setiap 3 bulan sekali atau maksimal 4
+              kali dalam setahun. Jeda waktu ini diperlukan untuk memastikan
+              tubuh Anda pulih sepenuhnya dan memproduksi darah baru.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item animate-on-scroll">
+          <button class="faq-question">
+            Apa yang harus saya lakukan sebelum donor darah?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Pastikan Anda sudah makan dengan cukup, minum air putih yang
+              banyak, istirahat yang cukup, dan tidak mengonsumsi alkohol 24 jam
+              sebelum donor. Bawa kartu identitas dan jangan lupa sarapan jika
+              donor di pagi hari.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item animate-on-scroll">
+          <button class="faq-question">
+            Apakah donor darah aman dan steril?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Ya, proses donor darah di DonorKu 100% aman dan steril. Kami
+              menggunakan jarum dan kantong darah sekali pakai yang steril.
+              Semua peralatan medis telah melewati standar internasional dan
+              ditangani oleh tenaga medis profesional.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item animate-on-scroll">
+          <button class="faq-question">
+            Apakah ada efek samping setelah donor darah?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Efek samping serius sangat jarang terjadi. Beberapa donor mungkin
+              merasakan pusing ringan atau lelah setelah donor. Kami menyediakan
+              makanan dan minuman untuk membantu pemulihan, serta tim medis siap
+              membantu jika diperlukan.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+      <div class="container">
+        <h2 class="section-title animate-on-scroll">Hubungi Kami</h2>
+        <p class="section-subtitle animate-on-scroll">
+          Siap membantu Anda 24/7 untuk kebutuhan donor darah
+        </p>
+
+        <div class="contact-content">
+          <div class="contact-info animate-on-scroll">
+            <div class="contact-item">
+              <div class="contact-icon">📍</div>
+              <div class="contact-details">
+                <h4>Alamat</h4>
+                <p>
+                  Jl. Kesehatan No. 123<br />Jakarta Pusat, DKI Jakarta 10110
+                </p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">📞</div>
+              <div class="contact-details">
+                <h4>Telepon</h4>
+                <p>+62 21 1234 5678<br />+62 812 3456 7890</p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">✉️</div>
+              <div class="contact-details">
+                <h4>Email</h4>
+                <p>info@donorku.id<br />darurat@donorku.id</p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">🕒</div>
+              <div class="contact-details">
+                <h4>Jam Operasional</h4>
+                <p>Senin - Minggu<br />24 Jam (Darurat)</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-form animate-on-scroll">
+            <form>
+              <div class="form-group">
+                <input type="text" placeholder="Nama Lengkap" required />
+              </div>
+              <div class="form-group">
+                <input type="email" placeholder="Email" required />
+              </div>
+              <div class="form-group">
+                <input type="tel" placeholder="Nomor Telepon" required />
+              </div>
+              <div class="form-group">
+                <select required>
+                  <option value="">Pilih Golongan Darah</option>
+                  <option value="A+">A+</option>
+                  <option value="A-">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B-</option>
+                  <option value="AB+">AB+</option>
+                  <option value="AB-">AB-</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O-</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <textarea placeholder="Pesan (Opsional)" rows="4"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-full">
+                Kirim Pesan
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>DonorKu</h3>
+          <p>
+            Platform donor darah terpercaya yang menghubungkan donor dengan
+            mereka yang membutuhkan. Bersama kita selamatkan lebih banyak nyawa.
+          </p>
+          <div class="social-links">
+            <a href="#">📘 Facebook</a>
+            <a href="#">📷 Instagram</a>
+            <a href="#">🐦 Twitter</a>
+            <a href="#">📺 YouTube</a>
+          </div>
+        </div>
+
+        <div class="footer-section">
+          <h3>Layanan</h3>
+          <p><a href="#">Donor Darah</a></p>
+          <p><a href="#">Cek Stok Darah</a></p>
+          <p><a href="#">Jadwal Donor</a></p>
+          <p><a href="#">Mobile Unit</a></p>
+          <p><a href="#">Donor Darurat</a></p>
+        </div>
+
+        <div class="footer-section">
+          <h3>Informasi</h3>
+          <p><a href="#">Syarat Donor</a></p>
+          <p><a href="#">Manfaat Donor</a></p>
+          <p><a href="#">Tips Kesehatan</a></p>
+          <p><a href="#">Artikel & Blog</a></p>
+          <p><a href="#">Download App</a></p>
+        </div>
+
+        <div class="footer-section">
+          <h3>Kontak Darurat</h3>
+          <p>📞 Hotline 24/7: 119</p>
+          <p>📱 WhatsApp: +62 812 3456 7890</p>
+          <p>✉️ darurat@donorku.id</p>
+          <p>🏥 Unit Gawat Darurat tersedia</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>
+          &copy; 2025 DonorKu. Semua hak dilindungi. | Dibuat dengan ❤️ untuk
+          Indonesia
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Smooth scrolling untuk navigation links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+
+      // Header scroll effect
+      window.addEventListener("scroll", function () {
+        const header = document.querySelector("header");
+        if (window.scrollY > 100) {
+          header.style.background = "rgba(255, 255, 255, 0.98)";
+          header.style.boxShadow = "0 2px 20px rgba(220, 38, 127, 0.15)";
+        } else {
+          header.style.background = "rgba(255, 255, 255, 0.95)";
+          header.style.boxShadow = "0 2px 20px rgba(220, 38, 127, 0.1)";
+        }
+      });
+
+      // Animasi counter untuk statistik
+      function animateCounter(element, target) {
+        let current = 0;
+        const increment = target / 100;
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= target) {
+            current = target;
+            clearInterval(timer);
+          }
+          element.textContent = Math.floor(current).toLocaleString();
+        }, 20);
+      }
+
+      // FAQ Toggle
+      document.querySelectorAll(".faq-question").forEach((question) => {
+        question.addEventListener("click", function () {
+          const faqItem = this.parentElement;
+          const answer = faqItem.querySelector(".faq-answer");
+          const icon = this.querySelector(".faq-icon");
+
+          // Close other FAQ items
+          document.querySelectorAll(".faq-item").forEach((item) => {
+            if (item !== faqItem) {
+              item.classList.remove("active");
+              item.querySelector(".faq-answer").classList.remove("active");
+            }
+          });
+
+          // Toggle current FAQ item
+          faqItem.classList.toggle("active");
+          answer.classList.toggle("active");
+        });
+      });
+
+      // Scroll animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver(function (entries) {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate");
+
+            // Animate counters when stats section is visible
+            if (entry.target.classList.contains("stat-card")) {
+              const numberElement = entry.target.querySelector(".stat-number");
+              const target = parseInt(numberElement.dataset.target);
+              animateCounter(numberElement, target);
+            }
+          }
+        });
+      }, observerOptions);
+
+      // Observe all elements with animate-on-scroll class
+      document.querySelectorAll(".animate-on-scroll").forEach((element) => {
+        observer.observe(element);
+      });
+
+      // Form submission
+      document.querySelector("form").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        // Simple form validation
+        const inputs = this.querySelectorAll(
+          "input[required], select[required]",
+        );
+        let isValid = true;
+
+        inputs.forEach((input) => {
+          if (!input.value.trim()) {
+            isValid = false;
+            input.style.borderColor = "#dc267f";
+            input.style.boxShadow = "0 0 5px rgba(220, 38, 127, 0.3)";
+          } else {
+            input.style.borderColor = "#ddd";
+            input.style.boxShadow = "none";
+          }
+        });
+
+        if (isValid) {
+          // Simulate form submission
+          const submitBtn = this.querySelector('button[type="submit"]');
+          const originalText = submitBtn.textContent;
+
+          submitBtn.textContent = "Mengirim...";
+          submitBtn.disabled = true;
+
+          setTimeout(() => {
+            alert(
+              "Terima kasih! Pesan Anda telah terkirim. Tim kami akan menghubungi Anda segera.",
+            );
+            this.reset();
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+          }, 2000);
+        } else {
+          alert("Mohon lengkapi semua field yang wajib diisi.");
+        }
+      });
+
+      // Blood stock animation on scroll
+      const stockCards = document.querySelectorAll(".blood-type");
+      const stockObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+              setTimeout(() => {
+                entry.target.style.transform = "scale(1)";
+                entry.target.style.opacity = "1";
+
+                // Animate stock bar
+                const stockFill = entry.target.querySelector(".stock-fill");
+                const width = stockFill.style.width;
+                stockFill.style.width = "0%";
+                setTimeout(() => {
+                  stockFill.style.width = width;
+                }, 200);
+              }, index * 100);
+            }
+          });
+        },
+        { threshold: 0.2 },
+      );
+
+      stockCards.forEach((card) => {
+        card.style.transform = "scale(0.8)";
+        card.style.opacity = "0";
+        card.style.transition = "all 0.6s ease";
+        stockObserver.observe(card);
+      });
+
+      // Add floating particles effect to hero
+      function createParticle() {
+        const particle = document.createElement("div");
+        particle.style.cssText = `
+                position: absolute;
+                width: 6px;
+                height: 6px;
+                background: rgba(255, 255, 255, 0.6);
+                border-radius: 50%;
+                pointer-events: none;
+                animation: float-particle 15s linear infinite;
+                left: ${Math.random() * 100}%;
+                animation-delay: ${Math.random() * 15}s;
+            `;
+
+        return particle;
+      }
+
+      // Add CSS for particle animation
+      const style = document.createElement("style");
+      style.textContent = `
+            @keyframes float-particle {
+                0% {
+                    transform: translateY(100vh) rotate(0deg);
+                    opacity: 0;
+                }
+                10% {
+                    opacity: 1;
+                }
+                90% {
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(-100px) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+            
+            .contact {
+                padding: 6rem 0;
+                background: white;
+            }
+            
+            .contact-content {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 4rem;
+                margin-top: 3rem;
+            }
+            
+            .contact-info {
+                display: flex;
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .contact-item {
+                display: flex;
+                align-items: flex-start;
+                gap: 1rem;
+                padding: 1.5rem;
+                background: #f8f9fa;
+                border-radius: 15px;
+                transition: transform 0.3s ease;
+            }
+            
+            .contact-item:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 30px rgba(220, 38, 127, 0.1);
+            }
+            
+            .contact-icon {
+                font-size: 2rem;
+                flex-shrink: 0;
+            }
+            
+            .contact-details h4 {
+                color: #dc267f;
+                margin-bottom: 0.5rem;
+                font-size: 1.2rem;
+            }
+            
+            .contact-details p {
+                color: #666;
+                line-height: 1.6;
+            }
+            
+            .contact-form {
+                background: white;
+                padding: 2rem;
+                border-radius: 20px;
+                box-shadow: 0 10px 30px rgba(220, 38, 127, 0.1);
+            }
+            
+            .form-group {
+                margin-bottom: 1.5rem;
+            }
+            
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                width: 100%;
+                padding: 1rem;
+                border: 2px solid #eee;
+                border-radius: 10px;
+                font-size: 1rem;
+                transition: all 0.3s ease;
+                font-family: inherit;
+            }
+            
+            .form-group input:focus,
+            .form-group select:focus,
+            .form-group textarea:focus {
+                outline: none;
+                border-color: #dc267f;
+                box-shadow: 0 0 10px rgba(220, 38, 127, 0.1);
+            }
+            
+            .btn-full {
+                width: 100%;
+            }
+            
+            .social-links {
+                margin-top: 1rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .social-links a {
+                color: #ccc;
+                text-decoration: none;
+                transition: color 0.3s ease;
+            }
+            
+            .social-links a:hover {
+                color: #dc267f;
+            }
+            
+            @media (max-width: 768px) {
+                .contact-content {
+                    grid-template-columns: 1fr;
+                    gap: 2rem;
+                }
+                
+                .contact-item {
+                    flex-direction: column;
+                    text-align: center;
+                }
+                
+                .contact-icon {
+                    font-size: 3rem;
+                }
+            }
+        `;
+      document.head.appendChild(style);
+
+      // Add particles to hero
+      const hero = document.querySelector(".hero");
+      for (let i = 0; i < 20; i++) {
+        hero.appendChild(createParticle());
+      }
+
+      // Auto-refresh stock data every 30 seconds (simulation)
+      setInterval(() => {
+        document.querySelectorAll(".stock-fill").forEach((fill) => {
+          const currentWidth = parseInt(fill.style.width);
+          const variation = Math.random() * 10 - 5; // +/- 5%
+          const newWidth = Math.max(
+            10,
+            Math.min(100, currentWidth + variation),
+          );
+          fill.style.width = newWidth + "%";
+
+          // Update stock level text
+          const stockLevel = fill
+            .closest(".blood-type")
+            .querySelector(".stock-level");
+          const currentStock = parseInt(stockLevel.textContent);
+          const newStock = Math.floor(currentStock * (newWidth / currentWidth));
+          stockLevel.textContent = newStock + " Kantong";
+
+          // Update status
+          const status = fill
+            .closest(".blood-type")
+            .querySelector(".stock-status");
+          if (newWidth >= 70) {
+            fill.className = "stock-fill stock-high";
+            status.textContent = "Stok Baik";
+          } else if (newWidth >= 40) {
+            fill.className = "stock-fill stock-medium";
+            status.textContent = "Stok Sedang";
+          } else {
+            fill.className = "stock-fill stock-low";
+            status.textContent = "Stok Menipis";
+          }
+        });
+      }, 30000);
+
+      // Add loading animation when page loads
+      window.addEventListener("load", function () {
+        document.body.style.opacity = "0";
+        document.body.style.transition = "opacity 0.5s ease";
+
+        setTimeout(() => {
+          document.body.style.opacity = "1";
+        }, 100);
+      });
+    </script>
+  </body>
+</html>
