@@ -1,4 +1,4 @@
 <?php
-header("Location: view/user/splash_screen.php");
+header("Location: view/user/home.php");
 exit();
 ?>
