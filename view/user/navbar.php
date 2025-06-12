@@ -16,7 +16,7 @@
       background-color: #f9f9f9;
     }
     .navbar {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -24,6 +24,7 @@
   background-color: transparent;
   transition: all 0.4s ease;
   padding: 1rem 2rem;
+  
 }
     .navbar-brand img {
       height: 55px;

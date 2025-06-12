@@ -379,9 +379,7 @@ button:hover {
   <div class="shape"></div>
 </div>
 
-<a href="/sedalam/view/user/home.php" class="logo-home" title="Kembali ke Beranda">
-  <i class="fas fa-home"></i>
-</a>
+<a href="/sedalam/view/user/home.php" class="logo-home">🏠</a>
   <div class="body1">
     <div class="container" id="container">
       <div class="form-container login-container">

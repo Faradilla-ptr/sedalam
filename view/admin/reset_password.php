@@ -290,9 +290,7 @@ button:hover {
   </style>
 </head>
 <body>
-<a href="../../login_admin.php" class="logo-home" title="Kembali ke Beranda">
-  <i class="fas fa-home"></i>
-</a>
+<a href="../../login_admin.php" class="logo-home">🏠</a>
   <form method="POST">
     <h2><i class="fas fa-unlock-alt"></i> Reset Password</h2>
 

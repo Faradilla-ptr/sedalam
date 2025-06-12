@@ -44,7 +44,7 @@ $result = $conn->query($sql);
         border-radius: 20px;
     }
     .about-section { padding: 60px 20px 40px 20px; }
-.story-section { padding: 40px 20px 40px 20px; }
+.story-section { padding: 60px 60px 60px 60px; }
 .features-section { padding: 50px 20px 30px 20px; }
 .review-section { padding: 50px 20px; }
 
@@ -217,6 +217,18 @@ $result = $conn->query($sql);
     color: #555;
 }
 
+.col-md-6 > p {
+    font-size: 1.2rem;   /* Ukuran lebih besar dari default */
+    line-height: 1.8;    /* Jarak baris agar lebih nyaman dibaca */
+    color: #444;         /* Warna teks sedikit lebih gelap dari #555 */
+}
+.story-section .col-md-6:first-child {
+    padding-right: 40px; /* Tambah jarak dari sisi kanan gambar */
+}
+
+.story-section .col-md-6:last-child {
+    padding-left: 40px; /* Tambah jarak dari sisi kiri teks */
+}
 
     </style>
 </head>
@@ -230,7 +242,7 @@ $result = $conn->query($sql);
         <div class="row align-items-center">
             <div class="col-md-6" data-aos="fade-right">
                 <h2 class="semibold">Setetes Darah Menyelamatkan</h2>
-                <p class="mt-3">Sedalam adalah platform digital yang mempermudah proses donor darah—lebih cepat, efisien, dan terintegrasi. Dengan dukungan dari PMI, kami hadir untuk menjembatani kebutuhan darah dan kepedulian masyarakat melalui teknologi yang humanis dan intuitif.</p>
+                <p class="mt-3">Sedalam adalah platform digital yang mempermudah proses donor darah lebih cepat, efisien, dan terintegrasi. Dengan dukungan dari PMI, kami hadir untuk menjembatani kebutuhan darah dan kepedulian masyarakat melalui teknologi yang humanis dan intuitif.</p>
                 <p>Pantau stok darah, akses artikel kesehatan, dan jadwalkan donor langsung dari satu aplikasi. Bersama Sedalam, #DonorLebihMudah jadi kenyataan.</p>
             </div>
             <div class="col-md-6 text-center" data-aos="fade-left">
@@ -248,7 +260,7 @@ $result = $conn->query($sql);
                 <img src="../../assets/profil.jpg" class="img-fluid img-custom shadow" alt="Cerita">
             </div>
             <div class="col-md-6" data-aos="fade-right">
-                <h2 class="semibold">Cerita di Balik Sedalam</h2>
+                <h2 class="semibold text-center">Cerita di Balik Sedalam</h2>
                 <p>Sedalam lahir dari kepedulian dan semangat kolaborasi untuk menjadikan donor darah lebih terorganisir dan mudah dijangkau. Berawal dari proyek penelitian mahasiswa, kini berkembang menjadi solusi nyata yang digunakan masyarakat luas.</p>
                 <p>Dengan pendekatan desain modern, fitur interaktif, dan data real-time, kami menghadirkan pengalaman digital yang intuitif. Sedalam dikembangkan oleh tim muda yang percaya bahwa teknologi dapat menjadi jembatan antara kemanusiaan dan aksi nyata.</p>
                 <p><em>"Karena setetes darah menyelamatkan banyak nyawa."</em></p>

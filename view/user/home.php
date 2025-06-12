@@ -243,6 +243,11 @@ linear-gradient(135deg, rgba(255,255,255,0.9), rgba(243, 243, 243, 0.95)),
         .table th, .table td {
             padding: 0.75rem;
         }
+        .scrolled {
+  background-color: #ffffff !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* opsional: bayangan halus saat scroll */
+}
+
     </style>
 </head>
 <body>
@@ -263,7 +268,7 @@ linear-gradient(135deg, rgba(255,255,255,0.9), rgba(243, 243, 243, 0.95)),
         <!-- Right side - Animation -->
         <div class="hero-animation">
 <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
-<dotlottie-player src="https://lottie.host/1e7ef383-4002-48fb-8cb1-c9b0eaf1e33f/abLZ1WY5Ua.lottie" background="transparent" speed="1" style="width: 900px; height: 900px" loop autoplay></dotlottie-player>
+<dotlottie-player src="https://lottie.host/0ae51264-4c1b-47f5-841f-b167ace08a87/dAK6gBEs0g.lottie" background="transparent" speed="0.25" style="width: 600px; height: 600px" loop autoplay></dotlottie-player>
         </div>
     </div>
 </div>
