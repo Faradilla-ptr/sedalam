@@ -67,57 +67,76 @@ if (
             $error = "";
 
             /// Bagian untuk menangani upload foto profil saat registrasi
-            if (isset($_FILES["foto"]) && $_FILES["foto"]["error"] == 0) {
-                // Pastikan direktori upload ada
-                $target_dir = "profil/";
-                if (!file_exists($target_dir)) {
-                    mkdir($target_dir, 0777, true);
-                }
+if (isset($_FILES["foto"]) && $_FILES["foto"]["error"] == 0) {
+    // Ambil ID pengguna terakhir yang baru saja diinsert
+    $last_id = $conn->insert_id; // Menggunakan insert_id untuk mendapatkan ID terakhir setelah query INSERT
 
-                // Ambil ID pengguna terakhir yang baru saja diinsert
-                $last_id = $conn->insert_id; // Menggunakan insert_id untuk mendapatkan ID terakhir setelah query INSERT
+    if (!$last_id) {
+        // Jika tidak ada insert_id (misalnya karena koneksi baru), ambil ID terakhir dari database
+        $query = "SELECT MAX(id) as last_id FROM akun";
+        $result = $conn->query($query);
+        if ($result && ($row = $result->fetch_assoc())) {
+            $last_id = $row["last_id"];
+        }
+    }
 
-                if (!$last_id) {
-                    // Jika tidak ada insert_id (misalnya karena koneksi baru), ambil ID terakhir dari database
-                    $query = "SELECT MAX(id) as last_id FROM akun";
-                    $result = $conn->query($query);
-                    if ($result && ($row = $result->fetch_assoc())) {
-                        $last_id = $row["last_id"];
-                    }
-                }
+    // Buat path direktori yang sama dengan seeder: view/pendonor/profil/
+    $target_dir = "/view/pendonor/profil/";
+    
+    // Pastikan direktori upload ada, buat jika belum ada
+    if (!file_exists($target_dir)) {
+        mkdir($target_dir, 0777, true); // true untuk membuat direktori bertingkat
+    }
 
-                // Ambil ekstensi file
-                $file_extension = pathinfo(
-                    $_FILES["foto"]["name"],
-                    PATHINFO_EXTENSION
-                );
+    // Ambil ekstensi file
+    $file_extension = pathinfo(
+        $_FILES["foto"]["name"],
+        PATHINFO_EXTENSION
+    );
 
-                // Daftar ekstensi yang diperbolehkan
-                $allowed_extensions = ["jpg", "jpeg", "png", "gif", "bmp"];
+    // Daftar ekstensi yang diperbolehkan
+    $allowed_extensions = ["jpg", "jpeg", "png", "gif", "bmp"];
 
-                // Cek apakah ekstensi file diizinkan
-                if (
-                    !in_array(strtolower($file_extension), $allowed_extensions)
-                ) {
-                    $error =
-                        "Hanya file gambar dengan ekstensi JPG, JPEG, PNG, GIF, atau BMP yang diizinkan.";
-                } else {
-                    // Buat nama file baru dengan format profil_[id].[extension]
-                    $new_filename =
-                        "profil_" . $last_id . "." . $file_extension;
-                    $target_file = $target_dir . $new_filename;
+    // Cek apakah ekstensi file diizinkan
+    if (
+        !in_array(strtolower($file_extension), $allowed_extensions)
+    ) {
+        $error =
+            "Hanya file gambar dengan ekstensi JPG, JPEG, PNG, GIF, atau BMP yang diizinkan.";
+    } else {
+        // Buat nama file baru dengan format profil_[id].[extension]
+        $new_filename = "profil_" . $last_id . "." . $file_extension;
+        $target_file = $target_dir . $new_filename;
 
-                    // Cek dan hapus file lama jika ada (untuk menghindari file sampah)
-                    $old_files = glob(
-                        $target_dir . "profil_" . $last_id . ".*"
-                    );
-                    foreach ($old_files as $old_file) {
-                        if (is_file($old_file)) {
-                            unlink($old_file);
-                        }
-                    }
-                }
+        // Cek dan hapus file lama jika ada (untuk menghindari file sampah)
+        // Hapus file dengan nama yang sama di folder profil
+        $old_files = glob($target_dir . "profil_" . $last_id . ".*");
+        foreach ($old_files as $old_file) {
+            if (is_file($old_file)) {
+                unlink($old_file);
             }
+        }
+
+        // Upload file ke lokasi yang baru
+        if (move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file)) {
+            // File berhasil diupload
+            $success_message = "Foto profil berhasil diupload ke " . $target_file;
+            
+            // Optional: Update database dengan path foto yang baru
+            $update_foto_query = "UPDATE akun SET foto_profil = ? WHERE id = ?";
+            $stmt_foto = $conn->prepare($update_foto_query);
+            if ($stmt_foto) {
+                $foto_path = $new_filename; // Simpan nama file saja, bukan path lengkap
+                $stmt_foto->bind_param("si", $foto_path, $last_id);
+                $stmt_foto->execute();
+                $stmt_foto->close();
+            }
+        } else {
+            $error = "Gagal mengupload foto profil.";
+        }
+    }
+}
+            
             if (empty($error)) {
                 // Simpan data pengguna di database
                 $query = "INSERT INTO akun (username, nama, nik, email, tanggal_lahir, password, gender, alamat, telepon, foto, golongan_darah,kode_unik) 

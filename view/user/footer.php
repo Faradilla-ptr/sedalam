@@ -123,7 +123,7 @@
     </div>
     
     <div class="footer-bottom">
-        <p>&copy; 2024 Sedalam. Semua Hak Dilindungi.</p>
+        <p>&copy; 2025 Sedalam. Semua Hak Dilindungi.</p>
     </div>
 </footer>
 

@@ -113,12 +113,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif (isset($_POST["delete"]) && isset($_POST["id"])) {
         $stmt = $conn->prepare("DELETE FROM stok_darah WHERE id = ?");
         $stmt->execute([$_POST["id"]]);
-
-        // Reset ulang ID setelah penghapusan
-        $conn->exec("SET @num := 0;");
-        $conn->exec("UPDATE stok_darah SET id = (@num := @num + 1);");
-        $conn->exec("ALTER TABLE stok_darah AUTO_INCREMENT = 1;");
-
         $notif = "delete";
     }
 }
@@ -698,7 +692,84 @@ endforeach;
         updateModal.show();
     }
 </script>
-
+<!-- Modal Update - Tambahkan sebelum tag </body> -->
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateModalLabel">Perbarui Stok Darah</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="updateId">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Golongan Darah</label>
+                            <select name="golongan_darah" id="updateGolonganDarah" class="form-control" required>
+                                <option value="">Pilih</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="AB">AB</option>
+                                <option value="O">O</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Rhesus</label>
+                            <select name="rhesus" id="updateRhesus" class="form-control" required>
+                                <option value="">Pilih</option>
+                                <option value="+">+</option>
+                                <option value="-">-</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Jumlah Kantong</label>
+                            <input type="number" name="jumlah_kantong" id="updateJumlah" class="form-control" min="1" required>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Status</label>
+                            <select name="status" id="updateStatus" class="form-control" required>
+                                <option value="">Pilih Status</option>
+                                <option value="Aman">Aman</option>
+                                <option value="Menipis">Menipis</option>
+                                <option value="Darurat">Darurat</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label">Lokasi</label>
+                            <?php if ($is_super_admin): ?>
+                                <select name="lokasi" id="updateLokasi" class="form-control" required>
+                                    <option value="">Pilih Lokasi</option>
+                                    <?php foreach ($all_locations as $location): ?>
+                                        <option value="<?= htmlspecialchars($location) ?>"><?= htmlspecialchars($location) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            <?php else: ?>
+                                <input type="text" name="lokasi" id="updateLokasi" class="form-control" value="<?= htmlspecialchars($admin_location) ?>" readonly required>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Tanggal Stok Datang</label>
+                            <input type="date" name="tanggal_stok_datang" id="updateTanggalStokDatang" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Tanggal Kadaluarsa</label>
+                            <input type="date" name="tanggal_kadaluarsa" id="updateTanggalKadaluarsa" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" name="update" class="btn btn-primary">Perbarui Data</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
